@@ -1,5 +1,4 @@
 #include <Servo.h>
-#include <movingAvg.h>
 
 const int pwm = 3;
 const int pwm2 = 5;
@@ -15,15 +14,15 @@ Servo Servo4;
 Servo Servo5;
 Servo Servo6;
 
-const int flex1 = A8;
-const int flex2 = A9;
-const int flex3 = A10;
-const int flex4 = A11;
-const int flex5 = A12;
+const int ring = A0;
+const int thumb = A1;
+const int index = A2;
+const int middle = A3;
+const int pinky = A4;
 
 
 void setup() {
-  // attach servos to PWM outputs
+  // put your setup code here, to run once:
   Servo1.attach(pwm);
   Servo2.attach(pwm2);
   Servo3.attach(pwm3);
@@ -31,75 +30,30 @@ void setup() {
   Servo5.attach(pwm5);
   Servo6.attach(pwm6);
 
-  pinMode(flex1, INPUT);
-  pinMode(flex2, INPUT);
-  pinMode(flex3, INPUT);
-  pinMode(flex4, INPUT);
-  pinMode(flex5, INPUT);
-
   Serial.begin(9600);
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  Serial.print(analogRead(flex1));
+  // proportionally control motors based on flex sensor readings
+  pos = map(thumb, 450, 550, 0, 180);
+  Servo1.write(pos);
+  pos = map(thumb, 500, 600, 0, 180);
+  Servo2.write(pos);
+  pos = map(thumb, 450, 600, 0, 180);
+  Servo3.write(pos);
+  pos = map(thumb, 450, 600, 0, 180);
+  Servo4.write(pos);
+  pos = map(thumb, 400, 560, 0, 180);
+  Servo4.write(pos);
+  
+  Serial.print(analogRead(thumb));
   Serial.print(",");
-  Serial.print(analogRead(flex2));
+  Serial.print(analogRead(index));
   Serial.print(",");
-  Serial.print(analogRead(flex3));
+  Serial.print(analogRead(middle));
   Serial.print(",");
-  Serial.print(analogRead(flex4));
+  Serial.print(analogRead(ring));
   Serial.print(",");
-  Serial.println(analogRead(flex5));
-
-  if (analogRead(flex1) > 800) {
-       Servo1.write(0);
-       delay(1000); 
-       Servo1.write(90);
-       delay(1000); 
-       Servo1.write(180); 
-   }
-
-//   Servo1.write(0);
-//   delay(1000); 
-//   Servo1.write(90);
-//   delay(1000); 
-//   Servo1.write(180); 
-//   delay(1000); 
-//
-//   Servo2.write(0);
-//   delay(1000); 
-//   Servo2.write(90);
-//   delay(1000); 
-//   Servo2.write(180); 
-//   delay(1000); 
-//
-//   Servo3.write(0);
-//   delay(1000); 
-//   Servo3.write(90);
-//   delay(1000); 
-//   Servo3.write(180); 
-//   delay(1000); 
-//
-//   Servo4.write(0);
-//   delay(1000); 
-//   Servo4.write(90);
-//   delay(1000); 
-//   Servo4.write(180); 
-//   delay(1000); 
-//
-//   Servo5.write(0);
-//   delay(1000); 
-//   Servo5.write(90);
-//   delay(1000); 
-//   Servo5.write(180); 
-//   delay(1000); 
-//
-//   Servo6.write(0);
-//   delay(1000); 
-//   Servo6.write(90);
-//   delay(1000); 
-//   Servo6.write(180); 
-//   delay(1000);
+  Serial.println(analogRead(pinky));
 }
