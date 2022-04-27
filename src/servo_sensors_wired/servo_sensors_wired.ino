@@ -14,11 +14,13 @@ Servo Servo4;
 Servo Servo5;
 Servo Servo6;
 
-const int ring = A0;
-const int thumb = A1;
-const int index = A2;
-const int middle = A3;
-const int pinky = A4;
+const int ringRead = A0;
+const int thumbRead = A1;
+const int indexRead = A2;
+const int middleRead = A3;
+const int pinkyRead = A4;
+
+int pos = 0;
 
 
 void setup() {
@@ -36,16 +38,25 @@ void setup() {
 
 void loop() {
   // proportionally control motors based on flex sensor readings
-  pos = map(thumb, 450, 550, 0, 180);
-  Servo1.write(pos);
-  pos = map(thumb, 500, 600, 0, 180);
-  Servo2.write(pos);
-  pos = map(thumb, 450, 600, 0, 180);
-  Servo3.write(pos);
-  pos = map(thumb, 450, 600, 0, 180);
-  Servo4.write(pos);
-  pos = map(thumb, 400, 560, 0, 180);
-  Servo4.write(pos);
+  int thumb = analogRead(thumbRead);
+  int pos1 = map(thumb, 450, 600, 0, 180);
+  Servo6.write(pos1);
+
+  int index = analogRead(indexRead);
+  int pos2 = map(index, 500, 650, 0, 180);
+  Servo2.write(pos2);
+
+  int middle = analogRead(middleRead);
+  int pos3 = map(middle, 450, 600, 0, 180);
+  Servo3.write(pos3);
+
+  int ring = analogRead(ringRead);
+  int pos4 = map(ring, 450, 600, 0, 180);
+  Servo4.write(pos4);
+
+  int pinky = analogRead(pinkyRead);
+  int pos5 = map(pinky, 400, 560, 0, 180);
+  Servo5.write(pos5);
   
   Serial.print(analogRead(thumb));
   Serial.print(",");
@@ -56,4 +67,7 @@ void loop() {
   Serial.print(analogRead(ring));
   Serial.print(",");
   Serial.println(analogRead(pinky));
+
+  delay(500);
+
 }
