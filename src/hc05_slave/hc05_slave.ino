@@ -3,7 +3,7 @@
 #include <Servo.h>
 
 // Define bluetooth variables
-String message;
+char message[255];
 char *strings[255]; // an array of pointers to the pieces of the above array after strtok()
 char *ptr = NULL;
 byte index = 0;
@@ -24,8 +24,6 @@ Servo Servo4;
 Servo Servo5;
 Servo Servo6;
 
-int pos = 0;
-
 
 void setup()
 {
@@ -43,53 +41,63 @@ void setup()
 
 void loop()
 {
-  index = 0;
-  if(Serial.available() > 0)
-  {
-    message += char(Serial.read());
+  while(strlen(message) != 21) {
+    if(Serial.available() > 0)
+    {
+      char i = char(Serial.read());
+      char* d = &message[0];
+      append(d, i);
+    }
   }
-  else
-  {
-    if(message != "") // if we received some data, then light up an LED
-    {  
-     char * S = new char[message.length() + 1];
-     strcpy(S, message.c_str());
 
-     ptr = strtok(S, ",");  // delimiter
-     Serial.println(ptr);
+  if(strlen(message) == 21) // if we received some data, then light up an LED
+  {  
+
+     ptr = strtok(message, ",");  // delimiter
      while (ptr != NULL)
      {
         strings[index] = ptr;
         index++;
         ptr = strtok(NULL, ",");
      }
+  
+     int thumbVolts = atoi(strings[0]);
+     int indexVolts = atoi(strings[1]);
+     int middleVolts = atoi(strings[2]);  
+     int ringVolts = atoi(strings[3]);  
+     int pinkyVolts = atoi(strings[4]);
 
-      delay(500);
+     int thumbAngle = map(thumbVolts, 450, 600, 0, 180);
+     int indexAngle = map(indexVolts, 500, 650, 0, 180);
+     int middleAngle = map(middleVolts, 450, 600, 0, 180); 
+     int ringAngle = map(ringVolts, 450, 600, 0, 180); 
+     int pinkyAngle = map(pinkyVolts, 400, 560, 0, 180);
 
-     int thumbAngle = atoi(strings[0]);
-     Serial.println("THUMB ANGLE: " + thumbAngle);
-
-     int indexAngle = atoi(strings[1]);
-     Serial.println("INDEX ANGLE: " + indexAngle);
-
-     int middleAngle = atoi(strings[2]);
-     Serial.println("MIDDLE ANGLE: " + middleAngle);
-
-     int ringAngle = atoi(strings[3]);
-     Serial.println("RING ANGLE: " + ringAngle);
-
-     int pinkyAngle = atoi(strings[4]);
-     Serial.println("PINKY ANGLE: " + pinkyAngle);
-
-
-     //Servo6.write(thumbAngle);
-     //Servo2.write(indexAngle);
-     //Servo3.write(middleAngle);
-     //Servo4.write(ringAngle);
-     //Servo5.write(pinkyAngle);
-    
-      }
-    }
-
+  
+     Servo6.write(thumbAngle);
+     Servo2.write(indexAngle);
+     Servo3.write(middleAngle);
+     Servo4.write(ringAngle);
+     Servo5.write(pinkyAngle);
+  
+     delay(100);
+  
+     Servo6.write(0);
+     Servo2.write(0);
+     Servo3.write(0);
+     Servo4.write(0);
+     Servo5.write(0);
+     
+  
+    memset(message, 0, sizeof message);
     memset(strings, 0, sizeof strings);
+    index = 0;
+ }
+}
+
+int append(char* s, char c) {
+  int len = strlen(s);
+  s[len] = c;
+  s[len+1] = '\0';
+  return 0;
 }
