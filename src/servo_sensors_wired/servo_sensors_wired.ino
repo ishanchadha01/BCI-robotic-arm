@@ -38,7 +38,7 @@ void setup() {
 
 void loop() {
   // proportionally control motors based on flex sensor readings
-  int thumb = analogRead(thumbRead);
+  int thumb = constrain(analogRead(thumbRead), 100, 999);
   int pos1 = map(thumb, 450, 600, 0, 180);
   Servo6.write(pos1);
 
