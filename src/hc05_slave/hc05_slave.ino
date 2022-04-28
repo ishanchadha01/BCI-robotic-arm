@@ -60,32 +60,38 @@ void loop()
         ptr = strtok(NULL, ",");
      }
   
-     int thumbVolts = atoi(strings[4]);
-     int indexVolts = atoi(strings[2]);
-     int middleVolts = atoi(strings[3]);  
-     int ringVolts = atoi(strings[1]);  
-     int pinkyVolts = atoi(strings[0]);
+     int thumbVolts = constrain(atoi(strings[0]), 410, 570);
+     int indexVolts = constrain(atoi(strings[1]), 460, 570);
+     int middleVolts = constrain(atoi(strings[2]), 450, 570);  
+     int ringVolts = constrain(atoi(strings[3]), 500, 600);   
+     int pinkyVolts = constrain(atoi(strings[4]), 430, 570); 
      int wristVolts = atoi(strings[5]);
 
-     int thumbAngle = map(thumbVolts, 450, 550, 0, 180);
-     Serial.print(thumbVolts);
+     int thumbAngle = map(thumbVolts, 410, 570, 0, 180);
+     Serial.print(thumbAngle);
      Serial.print(",");
-     Serial.println(thumbAngle);
-     int indexAngle = map(indexVolts, 450, 600, 0, 180);
-     //Serial.println(indexAngle);
-     int middleAngle = map(middleVolts, 450, 600, 0, 180); 
-     //Serial.println(middleAngle);
+     int indexAngle = map(indexVolts, 460, 570, 0, 180);
+     Serial.print(indexAngle);
+     
+     Serial.print(",");
+     int middleAngle = map(middleVolts, 450, 570, 0, 180); 
+     Serial.print(middleAngle);
+     Serial.print(",");
      int ringAngle = map(ringVolts, 500, 600, 0, 180);
-     //Serial.println(ringAngle); 
-     int pinkyAngle = map(pinkyVolts, 420, 560, 0, 180);
-     //Serial.println(pinkyAngle); 
-     int wristAngle  = map(wristVolts, 100, 200, 0, 30);
+     Serial.print(ringAngle);
+     Serial.print(","); 
+     int pinkyAngle = map(pinkyVolts, 430, 570, 0, 180);
+     Serial.print(pinkyAngle); 
+     Serial.print(",");
+     int wristAngle  = map(wristVolts, 100, 200, 0, 45);
+     Serial.println(wristAngle);
   
-     Servo1.write(thumbAngle);
-     Servo2.write(indexAngle);
-     Servo3.write(middleAngle);
-     Servo4.write(ringAngle);
-     Servo5.write(pinkyAngle);
+     Servo1.write(middleAngle);
+     Servo2.write(wristAngle);
+     Servo3.write(thumbAngle);
+     Servo4.write(pinkyAngle);
+     Servo5.write(indexAngle);
+     Servo6.write(ringAngle);
   
     memset(message, 0, sizeof message);
     memset(strings, 0, sizeof strings);
