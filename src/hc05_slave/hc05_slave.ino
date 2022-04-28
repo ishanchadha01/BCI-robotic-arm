@@ -36,12 +36,11 @@ void setup()
   Servo4.attach(pwm4);
   Servo5.attach(pwm5);
   Servo6.attach(pwm6);
-  
 }
 
 void loop()
 {
-  while(strlen(message) != 21) {
+  while(strlen(message) != 25) {
     if(Serial.available() > 0)
     {
       char i = char(Serial.read());
@@ -50,7 +49,7 @@ void loop()
     }
   }
 
-  if(strlen(message) == 21) // if we received some data, then light up an LED
+  if(strlen(message) == 25) // if we received some data, then light up an LED
   {  
 
      ptr = strtok(message, ",");  // delimiter
@@ -61,33 +60,32 @@ void loop()
         ptr = strtok(NULL, ",");
      }
   
-     int thumbVolts = atoi(strings[0]);
-     int indexVolts = atoi(strings[1]);
-     int middleVolts = atoi(strings[2]);  
-     int ringVolts = atoi(strings[3]);  
-     int pinkyVolts = atoi(strings[4]);
+     int thumbVolts = atoi(strings[4]);
+     int indexVolts = atoi(strings[2]);
+     int middleVolts = atoi(strings[3]);  
+     int ringVolts = atoi(strings[1]);  
+     int pinkyVolts = atoi(strings[0]);
+     int wristVolts = atoi(strings[5]);
 
-     int thumbAngle = map(thumbVolts, 450, 600, 0, 180);
-     int indexAngle = map(indexVolts, 500, 650, 0, 180);
+     int thumbAngle = map(thumbVolts, 450, 550, 0, 180);
+     Serial.print(thumbVolts);
+     Serial.print(",");
+     Serial.println(thumbAngle);
+     int indexAngle = map(indexVolts, 450, 600, 0, 180);
+     //Serial.println(indexAngle);
      int middleAngle = map(middleVolts, 450, 600, 0, 180); 
-     int ringAngle = map(ringVolts, 450, 600, 0, 180); 
-     int pinkyAngle = map(pinkyVolts, 400, 560, 0, 180);
-
+     //Serial.println(middleAngle);
+     int ringAngle = map(ringVolts, 500, 600, 0, 180);
+     //Serial.println(ringAngle); 
+     int pinkyAngle = map(pinkyVolts, 420, 560, 0, 180);
+     //Serial.println(pinkyAngle); 
+     int wristAngle  = map(wristVolts, 100, 200, 0, 30);
   
-     Servo6.write(thumbAngle);
+     Servo1.write(thumbAngle);
      Servo2.write(indexAngle);
      Servo3.write(middleAngle);
      Servo4.write(ringAngle);
      Servo5.write(pinkyAngle);
-  
-     delay(100);
-  
-     Servo6.write(0);
-     Servo2.write(0);
-     Servo3.write(0);
-     Servo4.write(0);
-     Servo5.write(0);
-     
   
     memset(message, 0, sizeof message);
     memset(strings, 0, sizeof strings);
