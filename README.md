@@ -1,5 +1,12 @@
 # BCI-robotic-arm
 
+<img src="/assets/full_hand.png" width="50%">
+
+<img src="/assets/glove.png" width="50%">
+
+<img src="/assets/finger_top.png" width="11%"> <img src="/assets/finger_mid.png" width="10%"> <img src="/assets/palm.png" width="15%">
+
+
 
 ## Background
 
@@ -16,12 +23,6 @@ In addition to using flex sensors, Brain-computer interfaces (BCI) is an up-and-
 The hardware can be split into three components: the robotic hand, the glove controlling the hand, and hardware that was not included due to its experimental nature. The software was split between the two Arduino modules.
 
 ### Robotic Hand
-
-<img src="/assets/finger_top.png" width="20%">
-<img src="/assets/finger_mid.png" width="20%">
-<img src="/assets/palm.png" width="20%">
-<img src="/assets/full_hand.png" width="20%">
-<img src="/assets/glove.png" width="20%">
 
 The robotic hand was decomposed into two primary parts: the hand and the forearm. These parts were 3D printed using Ultimaker 3D printers around Georgia Tech's campus. 
 The forearm was used as a motor casing, housing all five finger control motors and having an open back where the wires could easily be manipulated. The shaft of each of the five motors protruded out of the front of the motor casing, allowing the motors to be wired to the fingers. A sixth motor connected the hand and the forearm, serving as a wrist joint for rotational motion in the horizontal plane. The entire hand was placed on this wrist joint, rotating up to 45 degrees to demonstrate wrist flexion. 
